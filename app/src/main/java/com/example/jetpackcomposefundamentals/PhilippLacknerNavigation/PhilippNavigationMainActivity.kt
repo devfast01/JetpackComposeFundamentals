@@ -62,7 +62,9 @@ fun MainScreen(navController: NavController) {
             onValueChange = {
                 text = it
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 250.dp)
         )
         Spacer(modifier = Modifier.height(8.dp))
         Button(
