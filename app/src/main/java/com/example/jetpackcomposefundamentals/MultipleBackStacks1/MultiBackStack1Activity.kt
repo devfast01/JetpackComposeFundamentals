@@ -79,16 +79,10 @@ class MultiBackStack1Activity : ComponentActivity() {
                 }
             ) { paddingValues ->
                 Column(modifier = Modifier.padding(paddingValues)) {
-                    NavHost(rootNavController, startDestination = "home1") {
-                        composable("home1") {
-                            HomeNavHost()
-                        }
-                        composable("chat1") {
-                            ChatNavHost()
-                        }
-                        composable("settings1") {
-                            SettingsNavHost()
-                        }
+                    NavHost(rootNavController, startDestination = "home") {
+                        composable("home") { HomeNavHost() }
+                        composable("chat") { ChatNavHost() }
+                        composable("settings") { SettingsNavHost() }
                     }
                 }
             }
@@ -99,11 +93,15 @@ class MultiBackStack1Activity : ComponentActivity() {
 @Composable
 fun HomeNavHost() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "home1") {
-        for (i in 1..10) {
-            composable("home$i") {
+    NavHost(navController = navController, startDestination = "home") {
+        for (i in 0..10) {
+            val route = if (i == 0) "home" else "home$i"
+            composable(route) {
                 GenericScreen(title = "Home $i", onNextClick = {
-                    if (i < 10) navController.navigate("home${i + 1}")
+                    if (i < 10) {
+                        val nextRoute = "home${i + 1}"
+                        navController.navigate(nextRoute)
+                    }
                 })
             }
         }
@@ -113,11 +111,15 @@ fun HomeNavHost() {
 @Composable
 fun ChatNavHost() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "chat1") {
-        for (i in 1..10) {
-            composable("chat$i") {
+    NavHost(navController = navController, startDestination = "chat") {
+        for (i in 0..10) {
+            val route = if (i == 0) "chat" else "chat$i"
+            composable(route) {
                 GenericScreen(title = "Chat $i", onNextClick = {
-                    if (i < 10) navController.navigate("chat${i + 1}")
+                    if (i < 10) {
+                        val nextRoute = "chat${i + 1}"
+                        navController.navigate(nextRoute)
+                    }
                 })
             }
         }
@@ -127,17 +129,20 @@ fun ChatNavHost() {
 @Composable
 fun SettingsNavHost() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "settings1") {
-        for (i in 1..10) {
-            composable("settings$i") {
+    NavHost(navController = navController, startDestination = "settings") {
+        for (i in 0..10) {
+            val route = if (i == 0) "settings" else "settings$i"
+            composable(route) {
                 GenericScreen(title = "Settings $i", onNextClick = {
-                    if (i < 10) navController.navigate("settings${i + 1}")
+                    if (i < 10) {
+                        val nextRoute = "settings${i + 1}"
+                        navController.navigate(nextRoute)
+                    }
                 })
             }
         }
     }
 }
-
 
 @Composable
 fun GenericScreen(
@@ -183,5 +188,4 @@ val items = listOf(
         unselectedIcon = Icons.Filled.Settings,
         selectedIcon = Icons.Outlined.Settings,
     )
-
 )
