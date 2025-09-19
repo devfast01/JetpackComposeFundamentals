@@ -35,6 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ComposeUiProject.Domain.MainItems
+import com.example.jetpackcomposefundamentals.MultipleBackStacks1.MultiBackStack1Activity
 import com.example.jetpackcomposefundamentals.PhilippLacknerNavigation.PhilippNavigationMainActivity
 import com.example.jetpackcomposefundamentals.ui.theme.JetpackComposeFundamentalsTheme
 
@@ -44,15 +45,9 @@ class MainActivity : ComponentActivity() {
         MainItems(title = "Philipp Navigation", pic = "navigation_icon", onCardClick = {
             startActivity(Intent(this, PhilippNavigationMainActivity::class.java))
         }),
-//        MainItems(title = "Quiz UI", pic = "quiz", onCardClick = {
-//            startActivity(Intent(this, QuizDashboardActivity::class.java))
-//        }),
-//        MainItems(title = "Home App", pic = "home_blue", onCardClick = {
-//            startActivity(Intent(this, HomeMainActivity::class.java))
-//        }),
-//        MainItems(title = "Ticket App", pic = "from_ic", onCardClick = {
-//            startActivity(Intent(this, TicketSplashActivity::class.java))
-//        })
+        MainItems(title = "Multi Back Stack", pic = "navigation_icon", onCardClick = {
+            startActivity(Intent(this, MultiBackStack1Activity::class.java))
+        }),
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
