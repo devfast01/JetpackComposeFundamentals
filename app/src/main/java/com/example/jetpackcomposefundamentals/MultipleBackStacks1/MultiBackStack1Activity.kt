@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
@@ -76,7 +77,21 @@ class MultiBackStack1Activity : ComponentActivity() {
                         }
                     }
                 }
-            ) { }
+            ) { paddingValues ->
+                Column(modifier = Modifier.padding(paddingValues)) {
+                    NavHost(rootNavController, startDestination = "home1") {
+                        composable("home1") {
+                            HomeNavHost()
+                        }
+                        composable("chat1") {
+                            ChatNavHost()
+                        }
+                        composable("settings1") {
+                            SettingsNavHost()
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -84,10 +99,40 @@ class MultiBackStack1Activity : ComponentActivity() {
 @Composable
 fun HomeNavHost() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "home") {
+    NavHost(navController = navController, startDestination = "home1") {
         for (i in 1..10) {
             composable("home$i") {
+                GenericScreen(title = "Home $i", onNextClick = {
+                    if (i < 10) navController.navigate("home${i + 1}")
+                })
+            }
+        }
+    }
+}
 
+@Composable
+fun ChatNavHost() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "chat1") {
+        for (i in 1..10) {
+            composable("chat$i") {
+                GenericScreen(title = "Chat $i", onNextClick = {
+                    if (i < 10) navController.navigate("chat${i + 1}")
+                })
+            }
+        }
+    }
+}
+
+@Composable
+fun SettingsNavHost() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "settings1") {
+        for (i in 1..10) {
+            composable("settings$i") {
+                GenericScreen(title = "Settings $i", onNextClick = {
+                    if (i < 10) navController.navigate("settings${i + 1}")
+                })
             }
         }
     }
