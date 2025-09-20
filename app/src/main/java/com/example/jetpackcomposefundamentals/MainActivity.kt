@@ -35,6 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ComposeUiProject.Domain.MainItems
+import com.example.jetpackcomposefundamentals.BottomNavBarMulti.NavBarMultipleStackActivity
 import com.example.jetpackcomposefundamentals.MultipleBackStacks1.MultiBackStack1Activity
 import com.example.jetpackcomposefundamentals.PhilippLacknerNavigation.PhilippNavigationMainActivity
 import com.example.jetpackcomposefundamentals.ui.theme.JetpackComposeFundamentalsTheme
@@ -47,6 +48,9 @@ class MainActivity : ComponentActivity() {
         }),
         MainItems(title = "Multi Back Stack", pic = "navigation_icon", onCardClick = {
             startActivity(Intent(this, MultiBackStack1Activity::class.java))
+        }),
+        MainItems(title = "Multi Stack Bottom Nav Bar", pic = "navigation_icon", onCardClick = {
+            startActivity(Intent(this, NavBarMultipleStackActivity::class.java))
         }),
     )
 

@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JetpackComposeFundamentals">
         <activity
+            android:name=".BottomNavBarMulti.NavBarMultipleStackActivity"
+            android:exported="false" />
+        <activity
             android:name=".MultipleBackStacks1.MultiBackStack1Activity"
             android:exported="false" />
         <activity

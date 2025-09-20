@@ -62,5 +62,7 @@ dependencies {
 
     //TODO Navigation
     implementation("androidx.navigation:navigation-compose:2.9.4")
+    // TODO Glassmorphic effect
+    implementation("dev.chrisbanes.haze:haze-jetpack-compose:0.4.1")
 
 }
