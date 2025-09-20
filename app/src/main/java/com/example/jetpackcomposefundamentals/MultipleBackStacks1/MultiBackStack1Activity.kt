@@ -28,8 +28,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.compose.NavHost
@@ -79,8 +82,8 @@ class MultiBackStack1Activity : ComponentActivity() {
                 }
             ) { paddingValues ->
                 Column(modifier = Modifier.padding(paddingValues)) {
-                    NavHost(rootNavController, startDestination = "home") {
-                        composable("home") { HomeNavHost() }
+                    NavHost(rootNavController, startDestination = "home1") {
+                        composable("home1") { HomeNavHost() }
                         composable("chat") { ChatNavHost() }
                         composable("settings") { SettingsNavHost() }
                     }
@@ -90,23 +93,99 @@ class MultiBackStack1Activity : ComponentActivity() {
     }
 }
 
+
 @Composable
 fun HomeNavHost() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "home") {
-        for (i in 0..10) {
-            val route = if (i == 0) "home" else "home$i"
-            composable(route) {
-                GenericScreen(title = "Home $i", onNextClick = {
-                    if (i < 10) {
-                        val nextRoute = "home${i + 1}"
-                        navController.navigate(nextRoute)
-                    }
-                })
-            }
+    NavHost(navController = navController, startDestination = "home1") {
+        composable("home1") {
+            HomeScreen1(onNextClick = {
+                navController.navigate("Home2")
+            })
+        }
+
+        composable("home2") {
+            HomeScreen2(onNextClick = {
+                navController.navigate("Home3")
+            })
+        }
+
+        composable("home3") {
+            HomeScreen3(onNextClick = { })
+        }
+
+    }
+
+    //for (i in 0..10) {
+//    val route = if (i == 0) "home" else "home$i"
+//    composable(route) {
+//        GenericScreen(title = "Home $i", onNextClick = {
+//            if (i < 10) {
+//                val nextRoute = "home${i + 1}"
+//                navController.navigate(nextRoute)
+//            }
+//        })
+//    }
+//}
+}
+
+@Composable
+fun HomeScreen1(
+    onNextClick: () -> Unit,
+) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(text = "Home 1", fontSize = 32.sp, fontWeight = FontWeight.Bold, color = Color.Red)
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = onNextClick) {
+            Text(
+                text = "Next screen"
+            )
         }
     }
 }
+
+@Composable
+fun HomeScreen2(
+    onNextClick: () -> Unit,
+) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(text = "Home 2", fontSize = 32.sp, fontWeight = FontWeight.Bold, color = Color.Red)
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = onNextClick) {
+            Text(
+                text = "Next screen"
+            )
+        }
+    }
+}
+
+@Composable
+fun HomeScreen3(
+    onNextClick: () -> Unit,
+) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(text = "Home 3", fontSize = 32.sp, fontWeight = FontWeight.Bold, color = Color.Red)
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = onNextClick) {
+            Text(
+                text = "Next screen"
+            )
+        }
+    }
+}
+
 
 @Composable
 fun ChatNavHost() {
@@ -174,7 +253,7 @@ data class BottomNavigationItem(
 
 val items = listOf(
     BottomNavigationItem(
-        title = "Home",
+        title = "Home1",
         unselectedIcon = Icons.Filled.Home,
         selectedIcon = Icons.Outlined.Home,
     ),

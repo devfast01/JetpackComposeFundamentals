@@ -103,41 +103,11 @@ fun App() {
                 .fillMaxSize(),
             contentPadding = padding
         ) {
-            items(50) {
-                Box(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .fillMaxWidth()
-                        .height(200.dp)
-                        .background(Color.DarkGray, RoundedCornerShape(12.dp))
-                        .border(
-                            width = Dp.Hairline,
-                            color = Color.White.copy(alpha = .5f),
-                            shape = RoundedCornerShape(12.dp)
-                        )
-                        .clip(RoundedCornerShape(12.dp))
-                ) {
-                    AsyncImage(
-                        model = "https://source.unsplash.com/random?neon,$it",
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop,
-                    )
-                }
-            }
+
         }
     }
 }
 
-@Composable
-fun AsyncImage(
-    model: String,
-    contentDescription: Nothing?,
-    modifier: Modifier,
-    contentScale: ContentScale,
-) {
-
-}
 
 @Composable
 fun GlassmorphicBottomNavigation(hazeState: HazeState) {
