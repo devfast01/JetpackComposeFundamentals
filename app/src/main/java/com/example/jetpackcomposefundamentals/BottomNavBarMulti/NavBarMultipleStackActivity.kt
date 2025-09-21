@@ -90,34 +90,39 @@ fun App() {
     val hazeState = remember { HazeState() }
 
     Scaffold(
-        bottomBar = { GlassmorphicBottomNavigation(hazeState) }
+        bottomBar = { GlassmorphicBottomNavigation() }
     ) { padding ->
-        LazyColumn(
+        Box(
             Modifier
-                .haze(
-                    hazeState,
-                    backgroundColor = MaterialTheme.colorScheme.background,
-                    tint = Color.Black.copy(alpha = .2f),
-                    blurRadius = 30.dp,
-                )
-                .fillMaxSize(),
-            contentPadding = padding
+                .fillMaxSize()
+                .background(color = Color(0xFF493D69))
         ) {
+            LazyColumn(
+                Modifier
+                    .haze(
+                        hazeState,
+                        backgroundColor = Color(0xFF3E3062),
+                        tint = Color.Black.copy(alpha = .2f),
+                        blurRadius = 30.dp,
+                    )
+                    .fillMaxSize(),
+                contentPadding = padding
+            ) {
 
+            }
         }
     }
 }
 
 
 @Composable
-fun GlassmorphicBottomNavigation(hazeState: HazeState) {
+fun GlassmorphicBottomNavigation() {
     var selectedTabIndex by remember { mutableIntStateOf(1) }
     Box(
         modifier = Modifier
             .padding(vertical = 24.dp, horizontal = 64.dp)
             .fillMaxWidth()
             .height(64.dp)
-            .hazeChild(state = hazeState, shape = CircleShape)
             .border(
                 width = Dp.Hairline,
                 brush = Brush.verticalGradient(
@@ -153,54 +158,54 @@ fun GlassmorphicBottomNavigation(hazeState: HazeState) {
             )
         )
 
-        Canvas(
-            modifier = Modifier
-                .fillMaxSize()
-                .clip(CircleShape)
-                .blur(50.dp, edgeTreatment = BlurredEdgeTreatment.Unbounded)
-        ) {
-            val tabWidth = size.width / tabs.size
-            drawCircle(
-                color = animatedColor.copy(alpha = .6f),
-                radius = size.height / 2,
-                center = Offset(
-                    (tabWidth * animatedSelectedTabIndex) + tabWidth / 2,
-                    size.height / 2
-                )
-            )
-        }
+//        Canvas(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .clip(CircleShape)
+//                .blur(50.dp, edgeTreatment = BlurredEdgeTreatment.Unbounded)
+//        ) {
+//            val tabWidth = size.width / tabs.size
+//            drawCircle(
+//                color = animatedColor.copy(alpha = .6f),
+//                radius = size.height / 2,
+//                center = Offset(
+//                    (tabWidth * animatedSelectedTabIndex) + tabWidth / 2,
+//                    size.height / 2
+//                )
+//            )
+//        }
 
-        Canvas(
-            modifier = Modifier
-                .fillMaxSize()
-                .clip(CircleShape)
-        ) {
-            val path = Path().apply {
-                addRoundRect(RoundRect(size.toRect(), CornerRadius(size.height)))
-            }
-            val length = PathMeasure().apply { setPath(path, false) }.length
-
-            val tabWidth = size.width / tabs.size
-            drawPath(
-                path,
-                brush = Brush.horizontalGradient(
-                    colors = listOf(
-                        animatedColor.copy(alpha = 0f),
-                        animatedColor.copy(alpha = 1f),
-                        animatedColor.copy(alpha = 1f),
-                        animatedColor.copy(alpha = 0f),
-                    ),
-                    startX = tabWidth * animatedSelectedTabIndex,
-                    endX = tabWidth * (animatedSelectedTabIndex + 1),
-                ),
-                style = Stroke(
-                    width = 6f,
-                    pathEffect = PathEffect.dashPathEffect(
-                        intervals = floatArrayOf(length / 2, length)
-                    )
-                )
-            )
-        }
+//        Canvas(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .clip(CircleShape)
+//        ) {
+//            val path = Path().apply {
+//                addRoundRect(RoundRect(size.toRect(), CornerRadius(size.height)))
+//            }
+//            val length = PathMeasure().apply { setPath(path, false) }.length
+//
+//            val tabWidth = size.width / tabs.size
+//            drawPath(
+//                path,
+//                brush = Brush.horizontalGradient(
+//                    colors = listOf(
+//                        animatedColor.copy(alpha = 0f),
+//                        animatedColor.copy(alpha = 1f),
+//                        animatedColor.copy(alpha = 1f),
+//                        animatedColor.copy(alpha = 0f),
+//                    ),
+//                    startX = tabWidth * animatedSelectedTabIndex,
+//                    endX = tabWidth * (animatedSelectedTabIndex + 1),
+//                ),
+//                style = Stroke(
+//                    width = 6f,
+//                    pathEffect = PathEffect.dashPathEffect(
+//                        intervals = floatArrayOf(length / 2, length)
+//                    )
+//                )
+//            )
+//        }
     }
 }
 
