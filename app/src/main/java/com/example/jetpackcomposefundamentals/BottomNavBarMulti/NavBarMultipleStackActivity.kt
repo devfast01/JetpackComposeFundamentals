@@ -124,7 +124,7 @@ fun HomeAppNav() {
         ) {
             NavHost(
                 navController = navController,
-                startDestination = "splash",
+                startDestination = Screen.Home.route,
                 modifier = Modifier.fillMaxSize()
             ) {
 //                composable("splash") {
