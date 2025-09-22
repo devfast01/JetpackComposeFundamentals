@@ -28,11 +28,33 @@ import com.example.ComposeUiProject.HomeApp.feature.components.HomeTopBar
 import com.example.jetpackcomposefundamentals.R
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import com.example.ComposeUiProject.HomeApp.feature.components.OptionRow
+import com.example.ComposeUiProject.HomeApp.feature.home.HomeMainScreen
+import com.example.jetpackcomposefundamentals.MultipleBackStacks1.HomeScreen2
+import com.example.jetpackcomposefundamentals.MultipleBackStacks1.HomeScreen3
 
 
 @Composable
-fun HomeProfileScreen(navController: NavController) {
+fun HomeProfileScreenNavHost() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "profile1") {
+        composable("profile1") {
+            HomeProfileScreen( onClickDetails = {
+                navController.navigate("profile2")
+            })
+        }
+        composable("profile2") {
+            HomeScreen3(onNextClick = {
+            })
+        }
+    }
+}
+
+
+@Composable
+fun HomeProfileScreen(onClickDetails: () -> Unit = {}) {
 
     LazyColumn(
         modifier = Modifier
@@ -41,7 +63,7 @@ fun HomeProfileScreen(navController: NavController) {
         contentPadding = PaddingValues(bottom = 100.dp)
     ) {
         item { Spacer(Modifier.height(10.dp)) }
-        item { HomeTopBar(onBackClick = { navController.navigateUp() }) }
+        item { HomeTopBar() }
         item { Spacer(Modifier.height(16.dp)) }
         item {
             Box(
@@ -86,7 +108,7 @@ fun HomeProfileScreen(navController: NavController) {
         }
         item { Spacer(Modifier.height(24.dp)) }
 
-        item { OptionRow("Account Information") }
+        item { OptionRow("Account Information", onClick = { onClickDetails() }) }
         item { OptionRow("Security") }
         item { OptionRow("Notification") }
         item { OptionRow("Language") }
@@ -100,6 +122,5 @@ fun HomeProfileScreen(navController: NavController) {
 @Preview
 @Composable
 fun HomeProfileScreenPreview() {
-    val navController = rememberNavController()
-    HomeProfileScreen(navController)
+    HomeProfileScreen()
 }

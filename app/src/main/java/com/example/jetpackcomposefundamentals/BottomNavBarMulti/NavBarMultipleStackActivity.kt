@@ -87,6 +87,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.ComposeUiProject.HomeApp.feature.home.HomeMainScreen
 import com.example.ComposeUiProject.HomeApp.feature.home.HomeScreenNavHost
 import com.example.ComposeUiProject.HomeApp.feature.profile.HomeProfileScreen
+import com.example.ComposeUiProject.HomeApp.feature.profile.HomeProfileScreenNavHost
 import com.example.jetpackcomposefundamentals.R
 import com.example.jetpackcomposefundamentals.ui.theme.JetpackComposeFundamentalsTheme
 import dev.chrisbanes.haze.HazeState
@@ -130,7 +131,8 @@ fun HomeAppNav() {
                     HomeScreenNavHost()
                 }
                 composable(route = Screen.Profile.route) {
-                    HomeProfileScreen(navController)
+//                    HomeProfileScreen(navController)
+                    HomeProfileScreenNavHost()
                 }
                 composable(route = Screen.Bookmark.route) {
                     Log.i("Nav Bar", "Bookmark Page")

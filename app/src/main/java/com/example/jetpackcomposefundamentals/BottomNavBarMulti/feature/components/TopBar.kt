@@ -20,21 +20,12 @@ import com.example.jetpackcomposefundamentals.R
 
 @Composable
 @Preview
-fun HomeTopBar(onBackClick: () -> Unit = {}) {
+fun HomeTopBar() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 24.dp)
     ) {
-        Image(
-            painter = painterResource(R.drawable.back),
-            contentDescription = null,
-            modifier = Modifier
-                .align(Alignment.CenterStart)
-                .size(48.dp)
-                .clickable { onBackClick() }
-        )
-
         Text(
             text = "Profile",
             modifier = Modifier.align(Alignment.Center),
