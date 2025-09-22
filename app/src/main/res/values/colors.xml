@@ -9,5 +9,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="darkBlue">#37449e</color>
     <color name="lightBlue">#eaeefc</color>
+    // Home app colors
+    <color name="lightGreyHome">#f3f4f6</color>
+    <color name="blue">#4272f4</color>
+    <color name="grey">#8e8e8e</color>
+
 
 </resources>

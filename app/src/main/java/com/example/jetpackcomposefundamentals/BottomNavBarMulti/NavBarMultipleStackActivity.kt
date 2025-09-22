@@ -1,6 +1,7 @@
 package com.example.jetpackcomposefundamentals.BottomNavBarMulti
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -11,6 +12,7 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -18,11 +20,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,6 +39,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -62,15 +70,29 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.example.ComposeUiProject.HomeApp.feature.home.HomeMainScreen
+import com.example.ComposeUiProject.HomeApp.feature.profile.HomeProfileScreen
+import com.example.ComposeUiProject.HomeApp.feature.splash.SplashScreen
+import com.example.jetpackcomposefundamentals.R
 import com.example.jetpackcomposefundamentals.ui.theme.JetpackComposeFundamentalsTheme
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.haze
 import dev.chrisbanes.haze.hazeChild
+import kotlin.collections.contains
 
 class NavBarMultipleStackActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,220 +100,148 @@ class NavBarMultipleStackActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             JetpackComposeFundamentalsTheme {
-                App()
+                HomeAppNav()
             }
         }
     }
 }
 
 @Composable
-fun App() {
-
-    val hazeState = remember { HazeState() }
+fun HomeAppNav() {
+    val navController = rememberNavController()
+    val backStack by navController.currentBackStackEntryAsState()
+    val currentRoute = backStack?.destination?.route
+    val showBottomBar = currentRoute in bottomDestinations.map { it.route }
 
     Scaffold(
-        bottomBar = { GlassmorphicBottomNavigation() }
-    ) { padding ->
+        containerColor = colorResource(R.color.lightGreyHome),
+        contentWindowInsets = WindowInsets(0),
+    ) { inner ->
         Box(
-            Modifier
+            modifier = Modifier
                 .fillMaxSize()
-                .background(color = Color(0xFF493D69))
+                .padding(inner)
         ) {
-            LazyColumn(
-                Modifier
-                    .haze(
-                        hazeState,
-                        backgroundColor = Color(0xFF3E3062),
-                        tint = Color.Black.copy(alpha = .2f),
-                        blurRadius = 30.dp,
-                    )
-                    .fillMaxSize(),
-                contentPadding = padding
+            NavHost(
+                navController = navController,
+                startDestination = "splash",
+                modifier = Modifier.fillMaxSize()
             ) {
-
-            }
-        }
-    }
-}
-
-
-@Composable
-fun GlassmorphicBottomNavigation() {
-    var selectedTabIndex by remember { mutableIntStateOf(1) }
-    Box(
-        modifier = Modifier
-            .padding(vertical = 24.dp, horizontal = 64.dp)
-            .fillMaxWidth()
-            .height(64.dp)
-            .border(
-                width = Dp.Hairline,
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color.White.copy(alpha = .8f),
-                        Color.White.copy(alpha = .2f),
-                    ),
-                ),
-                shape = CircleShape
-            )
-    ) {
-        BottomBarTabs(
-            tabs,
-            selectedTab = selectedTabIndex,
-            onTabSelected = {
-                selectedTabIndex = tabs.indexOf(it)
-            }
-        )
-
-        val animatedSelectedTabIndex by animateFloatAsState(
-            targetValue = selectedTabIndex.toFloat(), label = "animatedSelectedTabIndex",
-            animationSpec = spring(
-                stiffness = Spring.StiffnessLow,
-                dampingRatio = Spring.DampingRatioLowBouncy,
-            )
-        )
-
-        val animatedColor by animateColorAsState(
-            targetValue = tabs[selectedTabIndex].color,
-            label = "animatedColor",
-            animationSpec = spring(
-                stiffness = Spring.StiffnessLow,
-            )
-        )
-
-//        Canvas(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .clip(CircleShape)
-//                .blur(50.dp, edgeTreatment = BlurredEdgeTreatment.Unbounded)
-//        ) {
-//            val tabWidth = size.width / tabs.size
-//            drawCircle(
-//                color = animatedColor.copy(alpha = .6f),
-//                radius = size.height / 2,
-//                center = Offset(
-//                    (tabWidth * animatedSelectedTabIndex) + tabWidth / 2,
-//                    size.height / 2
-//                )
-//            )
-//        }
-
-//        Canvas(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .clip(CircleShape)
-//        ) {
-//            val path = Path().apply {
-//                addRoundRect(RoundRect(size.toRect(), CornerRadius(size.height)))
-//            }
-//            val length = PathMeasure().apply { setPath(path, false) }.length
-//
-//            val tabWidth = size.width / tabs.size
-//            drawPath(
-//                path,
-//                brush = Brush.horizontalGradient(
-//                    colors = listOf(
-//                        animatedColor.copy(alpha = 0f),
-//                        animatedColor.copy(alpha = 1f),
-//                        animatedColor.copy(alpha = 1f),
-//                        animatedColor.copy(alpha = 0f),
-//                    ),
-//                    startX = tabWidth * animatedSelectedTabIndex,
-//                    endX = tabWidth * (animatedSelectedTabIndex + 1),
-//                ),
-//                style = Stroke(
-//                    width = 6f,
-//                    pathEffect = PathEffect.dashPathEffect(
-//                        intervals = floatArrayOf(length / 2, length)
-//                    )
-//                )
-//            )
-//        }
-    }
-}
-
-@Composable
-fun BottomBarTabs(
-    tabs: List<BottomBarTab>,
-    selectedTab: Int,
-    onTabSelected: (BottomBarTab) -> Unit,
-) {
-    CompositionLocalProvider(
-        LocalTextStyle provides LocalTextStyle.current.copy(
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Medium,
-        ),
-        LocalContentColor provides Color.White
-    ) {
-        Row(
-            modifier = Modifier.fillMaxSize(),
-        ) {
-            for (tab in tabs) {
-                val alpha by animateFloatAsState(
-                    targetValue = if (selectedTab == tabs.indexOf(tab)) 1f else .35f,
-                    label = "alpha"
-                )
-                val scale by animateFloatAsState(
-                    targetValue = if (selectedTab == tabs.indexOf(tab)) 1f else .98f,
-                    visibilityThreshold = .000001f,
-                    animationSpec = spring(
-                        stiffness = Spring.StiffnessLow,
-                        dampingRatio = Spring.DampingRatioMediumBouncy,
-                    ),
-                    label = "scale"
-                )
-                Column(
-                    modifier = Modifier
-                        .scale(scale)
-                        .alpha(alpha)
-                        .fillMaxHeight()
-                        .weight(1f)
-                        .pointerInput(Unit) {
-                            detectTapGestures {
-                                onTabSelected(tab)
-                            }
-                        },
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                ) {
-                    Icon(imageVector = tab.icon, contentDescription = "tab ${tab.title}")
-                    Text(text = tab.title)
+//                composable("splash") {
+//                    SplashScreen(onStartClick = {
+//                        navController.navigate(Screen.Home.route) {
+//                            popUpTo(route = "splash") { inclusive = true }
+//                            launchSingleTop = true
+//                            restoreState = true
+//                        }
+//                    })
+//                }
+                composable(route = Screen.Home.route) {
+                    HomeMainScreen()
+                }
+                composable(route = Screen.Profile.route) {
+                    HomeProfileScreen(navController)
+                }
+                composable(route = Screen.Bookmark.route) {
+                    Log.i("Nav Bar", "Bookmark Page")
+                }
+                composable(route = Screen.Explorer.route) {
+                    Log.i("Nav Bar", "Explorer Page")
                 }
             }
+
+            if (showBottomBar) {
+                BottomBar(
+                    navController = navController,
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .navigationBarsPadding()
+                        .padding(16.dp)
+                )
+            }
+
         }
     }
 }
 
-sealed class BottomBarTab(val title: String, val icon: ImageVector, val color: Color) {
-    data object Profile : BottomBarTab(
-        title = "Profile",
-        icon = Icons.Rounded.Person,
-        color = Color(0xFFFFA574)
-    )
+sealed class Screen(val route: String, val icon: Int, val isEnabled: Boolean = true) {
+    object Home : Screen("home", R.drawable.bottom_btn1)
+    object Explorer : Screen("explorer", R.drawable.bottom_btn2, false)
+    object Bookmark : Screen("bookmark", R.drawable.bottom_btn3, false)
+    object Profile : Screen("profile", R.drawable.bottom_btn4)
 
-    data object Home : BottomBarTab(
-        title = "Home",
-        icon = Icons.Rounded.Home,
-        color = Color(0xFFFA6FFF)
-    )
-
-    data object Settings : BottomBarTab(
-        title = "Settings",
-        icon = Icons.Rounded.Settings,
-        color = Color(0xFFADFF64)
-    )
 }
 
-val tabs = listOf(
-    BottomBarTab.Profile,
-    BottomBarTab.Home,
-    BottomBarTab.Settings,
-)
+private val bottomDestinations =
+    listOf(
+        Screen.Home,
+        Screen.Explorer,
+        Screen.Bookmark,
+        Screen.Profile
+    )
 
-
-@Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    JetpackComposeFundamentalsTheme {
-        App()
+private fun BottomBar(
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+) {
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentDest = backStackEntry?.destination
+
+    NavigationBar(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(50.dp))
+            .background(colorResource(R.color.black))
+            .height(70.dp)
+            .padding(4.dp),
+        containerColor = Color.Transparent,
+        tonalElevation = 0.dp
+    ) {
+        bottomDestinations.forEach { screen ->
+            val isEnabled = screen.isEnabled
+            val selected = currentDest?.hierarchy?.any {
+                it.route == screen.route
+            } == true
+            NavigationBarItem(
+                selected = selected,
+                onClick = {
+                    navController.navigate(screen.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }, icon = {
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(RoundedCornerShape(50.dp))
+                            .background(if (selected) colorResource(R.color.blue) else Color.Transparent),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(screen.icon),
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                },
+                alwaysShowLabel = false,
+                colors = NavigationBarItemDefaults.colors(
+                    indicatorColor = Color.Transparent,
+                    selectedIconColor = Color.White,
+                    unselectedIconColor = Color.Unspecified,
+                ), enabled = isEnabled
+            )
+        }
     }
+}
+
+@Preview
+@Composable
+fun BottomBarPreview() {
+    val navController = rememberNavController()
+    BottomBar(navController)
 }
