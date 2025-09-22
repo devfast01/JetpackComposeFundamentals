@@ -14,17 +14,37 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.ComposeUiProject.HomeApp.feature.components.CategoriesRow
 import com.example.ComposeUiProject.HomeApp.feature.components.HeaderSection
 import com.example.ComposeUiProject.HomeApp.feature.components.PropertyCard
 import com.example.ComposeUiProject.HomeApp.feature.components.SearchRow
+import com.example.jetpackcomposefundamentals.MultipleBackStacks1.HomeScreen1
+import com.example.jetpackcomposefundamentals.MultipleBackStacks1.HomeScreen2
 import com.example.jetpackcomposefundamentals.R
 
 
 @Composable
-@Preview
-fun HomeMainScreen() {
+fun HomeScreenNavHost() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "home1") {
+        composable("home1") {
+            HomeMainScreen(onClickOpenCatDetails = {
+                navController.navigate("Home2")
+            })
+        }
+        composable("home2") {
+            HomeScreen2(onNextClick = {
+            })
+        }
+    }
+}
 
+@Composable
+@Preview
+fun HomeMainScreen(onClickOpenCatDetails: () -> Unit = {}) {
     val items = remember {
         sampleProperties()
     }
@@ -47,7 +67,7 @@ fun HomeMainScreen() {
             Spacer(Modifier.height(16.dp))
         }
         item {
-            CategoriesRow()
+            CategoriesRow(onClickOpenCatDetails)
         }
         item {
             Spacer(Modifier.height(8.dp))

@@ -85,8 +85,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.ComposeUiProject.HomeApp.feature.home.HomeMainScreen
+import com.example.ComposeUiProject.HomeApp.feature.home.HomeScreenNavHost
 import com.example.ComposeUiProject.HomeApp.feature.profile.HomeProfileScreen
-import com.example.ComposeUiProject.HomeApp.feature.splash.SplashScreen
 import com.example.jetpackcomposefundamentals.R
 import com.example.jetpackcomposefundamentals.ui.theme.JetpackComposeFundamentalsTheme
 import dev.chrisbanes.haze.HazeState
@@ -109,9 +109,6 @@ class NavBarMultipleStackActivity : ComponentActivity() {
 @Composable
 fun HomeAppNav() {
     val navController = rememberNavController()
-    val backStack by navController.currentBackStackEntryAsState()
-    val currentRoute = backStack?.destination?.route
-    val showBottomBar = currentRoute in bottomDestinations.map { it.route }
 
     Scaffold(
         containerColor = colorResource(R.color.lightGreyHome),
@@ -127,17 +124,10 @@ fun HomeAppNav() {
                 startDestination = Screen.Home.route,
                 modifier = Modifier.fillMaxSize()
             ) {
-//                composable("splash") {
-//                    SplashScreen(onStartClick = {
-//                        navController.navigate(Screen.Home.route) {
-//                            popUpTo(route = "splash") { inclusive = true }
-//                            launchSingleTop = true
-//                            restoreState = true
-//                        }
-//                    })
-//                }
+
                 composable(route = Screen.Home.route) {
-                    HomeMainScreen()
+//                    HomeMainScreen()
+                    HomeScreenNavHost()
                 }
                 composable(route = Screen.Profile.route) {
                     HomeProfileScreen(navController)
@@ -150,16 +140,13 @@ fun HomeAppNav() {
                 }
             }
 
-            if (showBottomBar) {
-                BottomBar(
-                    navController = navController,
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .navigationBarsPadding()
-                        .padding(16.dp)
-                )
-            }
-
+            BottomBar(
+                navController = navController,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .navigationBarsPadding()
+                    .padding(16.dp)
+            )
         }
     }
 }
