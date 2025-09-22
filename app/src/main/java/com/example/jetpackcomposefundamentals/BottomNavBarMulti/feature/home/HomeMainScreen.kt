@@ -21,6 +21,7 @@ import com.example.ComposeUiProject.HomeApp.feature.components.CategoriesRow
 import com.example.ComposeUiProject.HomeApp.feature.components.HeaderSection
 import com.example.ComposeUiProject.HomeApp.feature.components.PropertyCard
 import com.example.ComposeUiProject.HomeApp.feature.components.SearchRow
+import com.example.jetpackcomposefundamentals.BottomNavBarMulti.feature.homeDetails.HomeDetailsScreen
 import com.example.jetpackcomposefundamentals.MultipleBackStacks1.HomeScreen1
 import com.example.jetpackcomposefundamentals.MultipleBackStacks1.HomeScreen2
 import com.example.jetpackcomposefundamentals.R
@@ -32,19 +33,28 @@ fun HomeScreenNavHost() {
     NavHost(navController = navController, startDestination = "home1") {
         composable("home1") {
             HomeMainScreen(onClickOpenCatDetails = {
-                navController.navigate("Home2")
+                navController.navigate("home2")
+            }, onClickOpenHomeDetails = {
+                navController.navigate("home_details_screen")
             })
         }
+
         composable("home2") {
-            HomeScreen2(onNextClick = {
-            })
+            HomeScreen2(onNextClick = {})
+        }
+
+        composable("home_details_screen") {
+            HomeDetailsScreen()
         }
     }
 }
 
 @Composable
 @Preview
-fun HomeMainScreen(onClickOpenCatDetails: () -> Unit = {}) {
+fun HomeMainScreen(
+    onClickOpenCatDetails: () -> Unit = {},
+    onClickOpenHomeDetails: () -> Unit = {},
+) {
     val items = remember {
         sampleProperties()
     }
@@ -73,7 +83,7 @@ fun HomeMainScreen(onClickOpenCatDetails: () -> Unit = {}) {
             Spacer(Modifier.height(8.dp))
         }
         items(items) { property ->
-            PropertyCard(property)
+            PropertyCard(property, onClickOpenHomeDetails)
         }
 
         item {

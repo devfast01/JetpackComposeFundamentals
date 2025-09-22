@@ -166,7 +166,7 @@ private val bottomDestinations =
         Screen.Home,
         Screen.Explorer,
         Screen.Bookmark,
-        Screen.Profile
+        Screen.Profile,
     )
 
 @Composable

@@ -2,6 +2,7 @@ package com.example.ComposeUiProject.HomeApp.feature.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,7 +32,10 @@ import com.example.jetpackcomposefundamentals.R
 
 
 @Composable
-fun PropertyCard(item: PropertyHome) {
+fun PropertyCard(
+    item: PropertyHome,
+    onClickOpenHomeDetails: () -> Unit = {},
+) {
 
     val white = colorResource(R.color.white)
     val blue = colorResource(R.color.blue)
@@ -41,8 +45,11 @@ fun PropertyCard(item: PropertyHome) {
     Column(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp)
-            .height(320.dp)
+            .height(330.dp)
             .fillMaxWidth()
+            .clickable() {
+                onClickOpenHomeDetails()
+            }
             .clip(RoundedCornerShape(30.dp))
             .background(white)
     ) {
@@ -97,7 +104,7 @@ fun PropertyCard(item: PropertyHome) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 MetaChip(R.drawable.bed, "${item.bed} Bed")
-                MetaChip(R.drawable.bath, "${item.bed} Bath")
+                MetaChip(R.drawable.bath, "${item.bath} Bath")
                 MetaChip(
                     R.drawable.garage,
                     if (item.isGarage) "Car Garage" else "non-Car Garage"
