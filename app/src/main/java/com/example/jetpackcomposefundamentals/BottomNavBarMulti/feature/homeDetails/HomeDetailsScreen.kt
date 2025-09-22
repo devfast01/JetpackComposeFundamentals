@@ -15,16 +15,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.example.jetpackcomposefundamentals.BottomNavBarMulti.feature.homeDetails.components.MainImage
 import com.example.jetpackcomposefundamentals.R
 
 @Composable
 fun HomeDetailsScreen(
+    title: String = "",
+    description: String = "",
+    picPath: String = "",
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -33,10 +33,11 @@ fun HomeDetailsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .statusBarsPadding()
-                .background(colorResource(R.color.lightGreyHome)),
-            contentPadding = PaddingValues(bottom = 100.dp)
+                .background(colorResource(R.color.lightGreyHome))
         ) {
-
+            item {
+                MainImage("Modern Apartment", "123 Main St, Anytown, USA", "pic_1")
+            }
         }
     }
 }
@@ -44,5 +45,9 @@ fun HomeDetailsScreen(
 @Preview
 @Composable
 fun HomeDetailsScreenPreview() {
-    HomeDetailsScreen()
+    HomeDetailsScreen(
+        title = "Modern Apartment",
+        description = "123 Main St, Anytown, USA",
+        picPath = "pic_1",
+    )
 }
