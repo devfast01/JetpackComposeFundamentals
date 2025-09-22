@@ -1,5 +1,9 @@
 package com.example.ComposeUiProject.HomeApp.core.model
 
+import kotlinx.serialization.Serializable
+
+
+@Serializable
 data class PropertyHome(
     val type: String,
     val title: String,

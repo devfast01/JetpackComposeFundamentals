@@ -14,9 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.ComposeUiProject.HomeApp.core.model.PropertyHome
 import com.example.ComposeUiProject.HomeApp.feature.components.CategoriesRow
 import com.example.ComposeUiProject.HomeApp.feature.components.HeaderSection
 import com.example.ComposeUiProject.HomeApp.feature.components.PropertyCard
@@ -25,6 +28,9 @@ import com.example.jetpackcomposefundamentals.BottomNavBarMulti.feature.homeDeta
 import com.example.jetpackcomposefundamentals.MultipleBackStacks1.HomeScreen1
 import com.example.jetpackcomposefundamentals.MultipleBackStacks1.HomeScreen2
 import com.example.jetpackcomposefundamentals.R
+import kotlinx.serialization.json.Json
+import java.net.URLDecoder
+import java.net.URLEncoder
 
 
 @Composable
@@ -34,8 +40,10 @@ fun HomeScreenNavHost() {
         composable("home1") {
             HomeMainScreen(onClickOpenCatDetails = {
                 navController.navigate("home2")
-            }, onClickOpenHomeDetails = {
-                navController.navigate("home_details_screen")
+            }, onClickOpenHomeDetails = { property ->
+                val json = Json.encodeToString(property)
+                val encodedJson = URLEncoder.encode(json, "UTF-8")
+                navController.navigate("home_details_screen/$encodedJson")
             })
         }
 
@@ -43,8 +51,25 @@ fun HomeScreenNavHost() {
             HomeScreen2(onNextClick = {})
         }
 
-        composable("home_details_screen") {
-            HomeDetailsScreen()
+        composable(
+            route = "home_details_screen/{propertyJson}",
+            arguments = listOf(navArgument("propertyJson") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val encodedJson = backStackEntry.arguments?.getString("propertyJson") ?: ""
+            val property = try {
+                val json = URLDecoder.decode(encodedJson, "UTF-8") // Add decoding
+                Json.decodeFromString<PropertyHome>(json)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+
+
+            HomeDetailsScreen(
+                title = property?.title ?: "",
+                description = property?.description ?: "",
+                picPath = property?.pickPath ?: "",
+            )
         }
     }
 }
@@ -53,7 +78,7 @@ fun HomeScreenNavHost() {
 @Preview
 fun HomeMainScreen(
     onClickOpenCatDetails: () -> Unit = {},
-    onClickOpenHomeDetails: () -> Unit = {},
+    onClickOpenHomeDetails: (PropertyHome) -> Unit = {},
 ) {
     val items = remember {
         sampleProperties()

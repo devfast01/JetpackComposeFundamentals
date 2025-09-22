@@ -36,7 +36,7 @@ fun HomeDetailsScreen(
                 .background(colorResource(R.color.lightGreyHome))
         ) {
             item {
-                MainImage("Modern Apartment", "123 Main St, Anytown, USA", "pic_1")
+                MainImage(title, description, picPath)
             }
         }
     }

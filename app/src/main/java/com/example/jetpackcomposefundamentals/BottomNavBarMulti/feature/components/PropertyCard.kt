@@ -34,7 +34,7 @@ import com.example.jetpackcomposefundamentals.R
 @Composable
 fun PropertyCard(
     item: PropertyHome,
-    onClickOpenHomeDetails: () -> Unit = {},
+    onClickOpenHomeDetails: (PropertyHome) -> Unit = {},
 ) {
 
     val white = colorResource(R.color.white)
@@ -48,7 +48,7 @@ fun PropertyCard(
             .height(330.dp)
             .fillMaxWidth()
             .clickable() {
-                onClickOpenHomeDetails()
+                onClickOpenHomeDetails(item)
             }
             .clip(RoundedCornerShape(30.dp))
             .background(white)
