@@ -17,6 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.jetpackcomposefundamentals.BottomNavBarMulti.feature.homeDetails.components.MainImage
 import com.example.jetpackcomposefundamentals.R
 
@@ -25,6 +27,7 @@ fun HomeDetailsScreen(
     title: String = "",
     description: String = "",
     picPath: String = "",
+    navController: NavController,
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -35,7 +38,7 @@ fun HomeDetailsScreen(
                 .background(colorResource(R.color.lightGreyHome))
         ) {
             item {
-                MainImage(title, description, picPath)
+                MainImage(title, description, picPath, navController)
             }
         }
     }
@@ -44,9 +47,11 @@ fun HomeDetailsScreen(
 @Preview
 @Composable
 fun HomeDetailsScreenPreview() {
+    val navController = rememberNavController()
     HomeDetailsScreen(
         title = "Modern Apartment",
         description = "123 Main St, Anytown, USA",
         picPath = "pic_1",
+        navController
     )
 }

@@ -69,6 +69,7 @@ fun HomeScreenNavHost() {
                 title = property?.title ?: "",
                 description = property?.description ?: "",
                 picPath = property?.pickPath ?: "",
+                navController
             )
         }
     }
