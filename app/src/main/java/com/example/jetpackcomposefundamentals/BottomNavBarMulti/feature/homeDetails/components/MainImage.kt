@@ -47,10 +47,6 @@ fun MainImage(
     navController: NavController,
 ) {
 
-    val white = colorResource(R.color.white)
-    val blue = colorResource(R.color.blue)
-    val black = colorResource(R.color.black)
-    val grey = colorResource(R.color.grey)
     ConstraintLayout(
         modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -155,5 +151,5 @@ fun MainImage(
 @Composable
 fun PropertyCardPreview() {
     val navController = rememberNavController()
-    MainImage("Modern Apartment", "123 Main St, Anytown, USA", "pic_1", navController)
+    MainImage("Modern Apartment", "123 Main St, Anytown, USA", "pic_4", navController)
 }
