@@ -180,7 +180,7 @@ fun Screen4(
     ) {
         Text(
             text = "This is fourth screen",
-            fontSize = 32.sp,
+            fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black,
             modifier = Modifier.padding(horizontal = 16.dp)
@@ -188,7 +188,7 @@ fun Screen4(
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = "Multi back stacks navigation example screen-4.",
-            fontSize = 32.sp,
+            fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black,
             modifier = Modifier.padding(horizontal = 16.dp)
