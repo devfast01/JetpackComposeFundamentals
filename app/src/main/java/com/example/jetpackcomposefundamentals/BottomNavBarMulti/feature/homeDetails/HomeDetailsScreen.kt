@@ -32,7 +32,6 @@ fun HomeDetailsScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .statusBarsPadding()
                 .background(colorResource(R.color.lightGreyHome))
         ) {
             item {

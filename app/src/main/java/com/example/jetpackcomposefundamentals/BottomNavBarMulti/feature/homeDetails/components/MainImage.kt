@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.ComposeUiProject.HomeApp.core.model.PropertyHome
 import com.example.ComposeUiProject.HomeApp.feature.components.MetaChip
 import com.example.ComposeUiProject.HomeApp.util.getDrawableId
@@ -43,21 +44,32 @@ fun MainImage(
     val black = colorResource(R.color.black)
     val grey = colorResource(R.color.grey)
 
-    Column(
+
+    ConstraintLayout(
         modifier = Modifier
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .padding(horizontal = 16.dp)
+            .padding(top = 40.dp)
             .height(350.dp)
             .fillMaxWidth()
             .clip(RoundedCornerShape(30.dp))
     ) {
-        Box {
-            Image(
-                painter = painterResource(getDrawableId(picPath)),
-                contentDescription = null, modifier = Modifier
-                    .clip(RoundedCornerShape(30.dp)),
-                contentScale = ContentScale.Crop
-            )
-        }
+        val (mainImage, title, description, backBtn, bookmarkBtn, metaChip, bedItem, bathItem) = createRefs()
+
+        Image(
+            painter = painterResource(getDrawableId(picPath)),
+            contentScale = ContentScale.Crop,
+            contentDescription = null,
+            modifier = Modifier
+                .clip(RoundedCornerShape(30.dp))
+                .constrainAs(mainImage) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                },
+        )
+
+
+
     }
 }
 
