@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -147,16 +148,17 @@ fun Screen3(
     ) {
         Text(
             text = "This is third screen",
-            fontSize = 32.sp,
+            fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.Red
+            color = Color.Black,
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = "Multi back stacks navigation example screen-3.",
-            fontSize = 32.sp,
+            fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.Red
+            color = Color.Black, modifier = Modifier.padding(horizontal = 16.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = onNextClick) {
@@ -180,14 +182,16 @@ fun Screen4(
             text = "This is fourth screen",
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.Red
+            color = Color.Black,
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = "Multi back stacks navigation example screen-4.",
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.Red
+            color = Color.Black,
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
