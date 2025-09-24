@@ -41,6 +41,7 @@ import com.example.jetpackcomposefundamentals.PhilippLacknerNavigation.PhilippNa
 import com.example.jetpackcomposefundamentals.SharedElementTransition.SharedElementActivity
 import com.example.jetpackcomposefundamentals.SharedElementTransition_1.SharedElementTransitionActivity_1
 import com.example.jetpackcomposefundamentals.SharedElementTransition_2.SharedElementTransitionActivity_2
+import com.example.jetpackcomposefundamentals.SimpleSharedElement.SimpleSharedElementActivity
 import com.example.jetpackcomposefundamentals.ui.theme.JetpackComposeFundamentalsTheme
 
 class MainActivity : ComponentActivity() {
@@ -63,6 +64,9 @@ class MainActivity : ComponentActivity() {
         }),
         MainItems(title = "Shared Element Transition 2", pic = "navigation_icon", onCardClick = {
             startActivity(Intent(this, SharedElementTransitionActivity_2::class.java))
+        }),
+        MainItems(title = "Simple Shared Element", pic = "navigation_icon", onCardClick = {
+            startActivity(Intent(this, SimpleSharedElementActivity::class.java))
         }),
     )
 
