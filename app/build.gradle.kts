@@ -79,5 +79,8 @@ dependencies {
     // TODO ConstraintLayout
     implementation("androidx.constraintlayout:constraintlayout-compose-android:1.1.1")
     implementation("io.coil-kt:coil-compose:2.5.0")
-
+    // collections
+    implementation(libs.collections)
+    // compose lifecycle
+    implementation(libs.compose.lifecycle)
 }
