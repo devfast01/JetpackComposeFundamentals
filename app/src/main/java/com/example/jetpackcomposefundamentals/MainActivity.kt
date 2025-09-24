@@ -38,6 +38,8 @@ import com.example.ComposeUiProject.Domain.MainItems
 import com.example.jetpackcomposefundamentals.BottomNavBarMulti.NavBarMultipleStackActivity
 import com.example.jetpackcomposefundamentals.MultipleBackStacks1.MultiBackStack1Activity
 import com.example.jetpackcomposefundamentals.PhilippLacknerNavigation.PhilippNavigationMainActivity
+import com.example.jetpackcomposefundamentals.SharedElementTransition.SharedElementActivity
+import com.example.jetpackcomposefundamentals.SharedElementTransition_1.SharedElementTransitionActivity_1
 import com.example.jetpackcomposefundamentals.ui.theme.JetpackComposeFundamentalsTheme
 
 class MainActivity : ComponentActivity() {
@@ -51,6 +53,12 @@ class MainActivity : ComponentActivity() {
         }),
         MainItems(title = "Multi Stack Bottom Nav Bar", pic = "navigation_icon", onCardClick = {
             startActivity(Intent(this, NavBarMultipleStackActivity::class.java))
+        }),
+        MainItems(title = "Shared Element Transition", pic = "navigation_icon", onCardClick = {
+            startActivity(Intent(this, SharedElementActivity::class.java))
+        }),
+        MainItems(title = "Shared Element Transition 1", pic = "navigation_icon", onCardClick = {
+            startActivity(Intent(this, SharedElementTransitionActivity_1::class.java))
         }),
     )
 

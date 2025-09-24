@@ -61,8 +61,17 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    // Jetpack Compose Animation :->
+    implementation(libs.androidx.animation)
+    implementation(libs.androidx.animation.core)
+    implementation(libs.androidx.foundation)
+    // Coil Compose :->
+    implementation(libs.coil)
+
     //TODO Navigation
     implementation("androidx.navigation:navigation-compose:2.9.4")
+    // TODO Compose animation
+    implementation("androidx.compose.animation:animation:1.7.4")
     // TODO Glassmorphic effect
     implementation("dev.chrisbanes.haze:haze-jetpack-compose:0.4.1")
     //TODO Json Serialization

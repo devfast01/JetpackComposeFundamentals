@@ -55,7 +55,6 @@ fun HomeScreenNavHost() {
             })
         }
 
-
         composable(
             route = "home_details_screen/{propertyJson}",
             arguments = listOf(navArgument("propertyJson") { type = NavType.StringType })
